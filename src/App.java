@@ -1,44 +1,47 @@
 import java.util.Scanner;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        MetodoOrdenamiento mO = new MetodoOrdenamiento();
-        //int[] arreglo1 = {5, 1, 10, -12, 0};
-        //int[] arreglo1 = {1,2, 3, 6, 8};
-        //mO.sortBubbleAva(arreglo1);
-        //mO.printArreglo(arreglo1);
+        MetodoOrdenamiento mo = new MetodoOrdenamiento();
+        Scanner scanner = new Scanner(System.in);
 
-        Scanner sc = new Scanner(System.in);
+        int tamanio = LeerEnteros(scanner, "Ingrese el tamaño del arreglo:", false);
 
-        int tamanio = 0;
-        do {
-            System.out.println("Ingrese el tamaño del arreglo (debe ser un entero positivo):");
-            while (!sc.hasNextInt()) {
-                System.out.println("Por favor, ingrese un entero válido.");
-                sc.next(); 
-            }
-            tamanio = sc.nextInt();
-            if (tamanio <= 0) {
-                System.out.println("El tamaño debe ser un entero positivo.");
-            }
-        } while (tamanio <= 0);
+        int[] arreglo = new int[tamanio];
 
-        int[] arreglo2 = new int[tamanio];
-
-        System.out.println("Ingrese los valores del arreglo:");
+        System.out.println("Ingrese los elementos del arreglo:");
         for (int i = 0; i < tamanio; i++) {
-            System.out.println("Valor para la posición " + (i + 1) + ":");
-            while (!sc.hasNextInt()) {
-                System.out.println("Por favor, ingrese un entero válido.");
-                sc.next(); // Limpiamos la entrada incorrecta
+            System.out.print("Elemento " + (i + 1) + ": ");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Ingrese correctamente un número entero:");
+                scanner.next();  
             }
-            arreglo2[i] = sc.nextInt();
+            arreglo[i] = scanner.nextInt();
         }
 
-        mO.sortBubbleAva(arreglo2);
+        arreglo = mo.BurbujaAjuste(arreglo);
 
         System.out.println("Arreglo ordenado:");
-        mO.printArreglo(arreglo2);
+        mo.printArreglo(arreglo);
 
-        sc.close();
+        scanner.close();
+    }
+
+    public static int LeerEnteros(Scanner scanner, String mensaje, boolean permitirnegativos) {
+        int tamanio = 0;
+
+        do {
+            System.out.println(mensaje);
+            while (!scanner.hasNextInt()) {
+                System.out.println("Ingrese correctamente un número entero:");
+                scanner.next();
+            }
+            tamanio = scanner.nextInt();
+            if (!permitirnegativos && tamanio <= 0) {
+                System.out.println("El tamaño debe ser un entero positivo.");
+            }
+        } while (!permitirnegativos && tamanio <= 0);
+
+        return tamanio;
     }
 }
